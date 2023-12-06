@@ -41,6 +41,5 @@ public class MemberServiceTest {
 
         assertThat(user1.getMemberName()).isEqualTo("user1");
         assertThat(user1.getMemberEmail()).contains("user1");
-
     }
 }
