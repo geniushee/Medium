@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Member extends BaseEntity {
     @Email
     private String memberEmail;
 
-    private List<String> memberAuthorities;
+    private List<SimpleGrantedAuthority> memberAuthorities;
 
     public static Member dtoToEntity(MemberDto entity){
         initMemberAuthorities(entity);
@@ -41,9 +42,9 @@ public class Member extends BaseEntity {
 
     private static void initMemberAuthorities(MemberDto memberDto) {
         if (memberDto.getMemberName().contains("admin")){
-            memberDto.getMemberAuthorities().add("ROLE_ADMIN");
+            memberDto.getMemberAuthorities().add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
-        memberDto.getMemberAuthorities().add("ROLE_MEMBER");
+        memberDto.getMemberAuthorities().add(new SimpleGrantedAuthority("ROLE_MEMBER"));
 
     }
 }

@@ -16,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username){
         MemberDto memberDto = memberService.findByMemberName(username);
-        return new User(memberDto.getMemberName(), memberDto.getMemberPassword(), memberDto -m,.get);
+        return new User(memberDto.getMemberName(), memberDto.getMemberPassword(), memberDto.getMemberAuthorities());
     }
 
 

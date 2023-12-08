@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class MemberDto {
     private String memberName;
     private String memberPassword;
     private String memberEmail;
-    private List<String> memberAuthorities;
+    private List<SimpleGrantedAuthority> memberAuthorities;
 
     public MemberDto(Member member) {
         this.memberId = member.getId();
