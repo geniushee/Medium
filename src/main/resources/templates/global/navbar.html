@@ -7,9 +7,10 @@
                 </div>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                     <li><a href="/">Homepage</a></li>
-                    <li><a href="/" ></a></li>
-                    <li><a href="member/join">Sign Up</a></li>
-                    <li><a href="member/signin">Sign In</a></li>
+                    <li th:if="${@rq.isLogined}"><a href="/member/profile">내정보</a></li>
+                    <li th:if="${@rq.isLogined}"><a method="POST" href="/member/logout">로그아웃</a></li>
+                    <li th:if="${!@rq.isLogined}"><a href="/member/join">Sign Up</a></li>
+                    <li th:if="${!@rq.isLogined}"><a href="/member/signin">Sign In</a></li>
                 </ul>
             </div>
         </div>

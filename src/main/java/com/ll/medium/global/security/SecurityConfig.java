@@ -36,6 +36,11 @@ public class SecurityConfig {
                                 .usernameParameter("memberName")
                                 .passwordParameter("memberPassword")
                                 .defaultSuccessUrl("/")
+                )
+                .logout(
+                        logout -> logout
+                                .logoutUrl("/member/logout")
+                                .logoutSuccessUrl("/")
                 );
 
         return http.build();
