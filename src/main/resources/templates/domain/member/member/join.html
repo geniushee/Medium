@@ -16,6 +16,12 @@
     </div>
     <div class="form-control w-full max-w-xs">
         <div class="label">
+            <span>Password Confirm</span>
+        </div>
+        <input type="password" name="memberPasswordConfirm" placeholder="password를 재입력해주세요." class="input input-bordered w-full max-w-xs">
+    </div>
+    <div class="form-control w-full max-w-xs">
+        <div class="label">
             <span>Email</span>
         </div>
         <input type="email" name="memberEmail" placeholder="Email를 입력해주세요." class="input input-bordered w-full max-w-xs">
@@ -27,14 +33,17 @@
     function submitJoinForm(form){
         const inputUserName = form.memberName;
         const inputPassword = form.memberPassword;
+        const inputPasswordConfirm = form.memberPasswordConfirm;
         const inputEmail = form.memberEmail;
 
         inputUserName.value = inputUserName.value.trim();
         inputPassword.value = inputPassword.value.trim();
+        inputPasswordConfirm.value = inputPasswordConfirm.value.trim();
         inputEmail.value = inputEmail.value.trim();
 
         const memberName = inputUserName.value;
         const memberPassword = inputPassword.value;
+        const memberPasswordConfirm = inputPasswordConfirm.value;
         const memberEmail = inputEmail.value;
 
         if (memberName.length == 0){
@@ -47,6 +56,12 @@
             alert("Password를 입력해주세요.")
             inputPassword.focus();
             return;
+        }
+
+        if (memberPassword != memberPasswordConfirm){
+            alert("Password를 다시 확인해주세요.")
+            inputPassword.focus();
+            return ;
         }
 
         if (memberEmail.length == 0){
