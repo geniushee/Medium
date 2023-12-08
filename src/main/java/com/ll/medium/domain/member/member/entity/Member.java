@@ -28,7 +28,7 @@ public class Member extends BaseEntity {
     @Email
     private String memberEmail;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "member_authorities", joinColumns = @JoinColumn(name = "member_id"))
     @Column(name = "authority")
     private List<String> memberAuthorities;
