@@ -2,7 +2,10 @@
 
 <body>
 <div layout:fragment="content">
-    <form th:action class="container sm justify-center" onsubmit="submitJoinForm(this)"
+    <script th:if="${param.error}">
+        alert("ID 및 비밀번호가 일치하지 않습니다. \nID와 비밀번호를 확인해 주세요.")
+    </script>
+    <form th:action class="flex flex-col items-center gap-4" onsubmit="submitJoinForm(this)"
     method="POST">
         <label class="form-control w-full max-w-xs">
             <div class="label">

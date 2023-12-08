@@ -1,11 +1,13 @@
 package com.ll.medium.domain.member.member.controller;
 
+import com.ll.medium.domain.member.member.Data.JoinForm;
 import com.ll.medium.domain.member.member.memberDto.MemberDto;
 import com.ll.medium.domain.member.member.service.MemberService;
 import com.ll.medium.global.Rq.Rq;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +26,20 @@ public class memberController {
     }
 
     @PostMapping("/join")
-    public String joinMember(@Valid MemberDto memberDto) {
+    public String joinMember(@Valid JoinForm joinForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "domain/member/member/join";
+        }
+        if (joinForm.getMemberPassword() != joinForm.getMemberPasswordConfirm()){
+            return rq.direct("domain/member/member/join","비밀번호를 재확인해주세요.");
+        }
+
+        String joinName = joinForm.getMemberName();
+        if (memberService.findByMemberName(joinName) != null) {
+            return rq.direct("domain/member/member/join", "이미 존재하는 ID입니다.");
+        }
+
+        MemberDto memberDto = joinForm.toDto();
         memberService.joinMember(memberDto);
         return "redirect:/";
     }

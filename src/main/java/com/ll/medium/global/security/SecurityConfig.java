@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .formLogin(
                         formLogin -> formLogin
                                 .loginPage("/member/signin")
+                                .failureUrl("/member/signin?error=true")
                                 .loginProcessingUrl("/member/signin")
                                 .usernameParameter("memberName")
                                 .passwordParameter("memberPassword")

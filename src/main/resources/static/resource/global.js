@@ -18,3 +18,14 @@ $(function () {
         return false;
     });
 });
+
+function getQueryParams(){
+    const params = new URLSearchParams(window.location.search)
+    const paramsObj = {};
+
+    for (const [key, value] of params){
+        paramsObj [key] = value;
+    }
+
+    return paramsObj;
+}

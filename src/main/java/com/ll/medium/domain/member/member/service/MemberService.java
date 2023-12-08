@@ -24,7 +24,8 @@ public class MemberService {
 
     public MemberDto findByMemberName(String memberName) {
         Optional<Member> opMember = memberRepository.findByMemberName(memberName);
-        return new MemberDto(opMember.get());
+        return new MemberDto(opMember
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 ID입니다.")));
     }
 
     private void passwordEncording(MemberDto memberDto){

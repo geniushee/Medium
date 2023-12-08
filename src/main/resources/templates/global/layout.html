@@ -21,6 +21,13 @@
 <body>
 <nav th:replace="~{global/navbar :: navbar}"></nav>
 
+<script>
+    const queryParams = getQueryParams();
+    if (queryParams.msg){
+        alert(queryParams.get(msg))
+    }
+</script>
+
 <th:block layout:fragment="content"></th:block>
 
 
