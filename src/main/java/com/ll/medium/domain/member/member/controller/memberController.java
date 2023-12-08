@@ -2,10 +2,7 @@ package com.ll.medium.domain.member.member.controller;
 
 import com.ll.medium.domain.member.member.memberDto.MemberDto;
 import com.ll.medium.domain.member.member.service.MemberService;
-<<<<<<< HEAD
-=======
 import jakarta.validation.Valid;
->>>>>>> first_step2
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
