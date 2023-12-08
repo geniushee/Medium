@@ -1,7 +1,8 @@
 package com.ll.medium.domain.member.member.controller;
 
+import com.ll.medium.domain.member.member.memberDto.MemberDto;
 import com.ll.medium.domain.member.member.service.MemberService;
-import lombok.Data;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +22,19 @@ public class memberController {
     }
 
     @PostMapping("/join")
-    public String joinMember() {
-//        memberService.joinMember(memberDto);
+    public String joinMember(@Valid MemberDto memberDto) {
+        memberService.joinMember(memberDto);
         return "redirect:/";
     }
 
-    @Data
-    public static class MemberJoinForm{
-        private String memberName;
-        private String memberPassword;
-        private String memberEmail;
+    @GetMapping("/signin")
+    public String showSignIn(){
+        return "domain/member/member/signin";
     }
+
+//    @PostMapping("/signin")  // security의 formLogin 사용
+//    public String signIn(@Valid MemberDto memberDto){
+//        memberService.signIn(memberDto);
+//        return "redirect:/";
+//    }
 }

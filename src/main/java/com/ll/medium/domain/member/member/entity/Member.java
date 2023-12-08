@@ -9,9 +9,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity
+@Entity(name = "Member")
 @Getter
 @SuperBuilder
 @AllArgsConstructor(access = PROTECTED)
@@ -25,12 +27,23 @@ public class Member extends BaseEntity {
     @Email
     private String memberEmail;
 
+    private List<String> memberAuthorities;
+
     public static Member dtoToEntity(MemberDto entity){
+        initMemberAuthorities(entity);
         return Member.builder()
                 .memberName(entity.getMemberName())
                 .memberPassword(entity.getMemberPassword())
                 .memberEmail(entity.getMemberEmail())
+                .memberAuthorities(entity.getMemberAuthorities())
                 .build();
     }
 
+    private static void initMemberAuthorities(MemberDto memberDto) {
+        if (memberDto.getMemberName().contains("admin")){
+            memberDto.getMemberAuthorities().add("ROLE_ADMIN");
+        }
+        memberDto.getMemberAuthorities().add("ROLE_MEMBER");
+
+    }
 }
