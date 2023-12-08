@@ -8,10 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity
+@Entity(name = "Member")
 @Getter
 @SuperBuilder
 @AllArgsConstructor(access = PROTECTED)
@@ -25,12 +28,23 @@ public class Member extends BaseEntity {
     @Email
     private String memberEmail;
 
+    private List<SimpleGrantedAuthority> memberAuthorities;
+
     public static Member dtoToEntity(MemberDto entity){
+        initMemberAuthorities(entity);
         return Member.builder()
                 .memberName(entity.getMemberName())
                 .memberPassword(entity.getMemberPassword())
                 .memberEmail(entity.getMemberEmail())
+                .memberAuthorities(entity.getMemberAuthorities())
                 .build();
     }
 
+    private static void initMemberAuthorities(MemberDto memberDto) {
+        if (memberDto.getMemberName().contains("admin")){
+            memberDto.getMemberAuthorities().add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        memberDto.getMemberAuthorities().add(new SimpleGrantedAuthority("ROLE_MEMBER"));
+
+    }
 }
