@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" data-theme="cupcake">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- 제이쿼리 불러오기 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <!-- global.js 를 사용하기 위한 태그-->
+    <script src="/resource/global.js"></script>
+    <!-- 페이지에 csrf토큰을 넣기 위한 meta data -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <title>Medium</title>
+</head>
+<body>
+<nav th:replace="~{global/navbar :: navbar}"></nav>
+
+<script>
+    const queryParams = getQueryParams();
+    if (queryParams.msg){
+        alert(queryParams.get(msg))
+    }
+</script>
+
+<th:block layout:fragment="content"></th:block>
+
+
+<script src="https://cdn.tailwindcss.com"></script>
+</body>
+</html>
