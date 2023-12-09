@@ -31,11 +31,14 @@ public class SecurityConfig {
                 )
                 .formLogin(
                         formLogin -> formLogin
+                                // 로그인 URL 로그인 필요시 자동 이동
                                 .loginPage("/member/signin")
+                                // 로그인 실패시 URL
                                 .failureUrl("/member/signin?error=true")
                                 .loginProcessingUrl("/member/signin")
                                 .usernameParameter("memberName")
                                 .passwordParameter("memberPassword")
+                                // 로그인 성공시 URL
                                 .defaultSuccessUrl("/")
                 )
                 .logout(
@@ -47,6 +50,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // 패스워드 인코더 설정 - BCrypt로 설정
     @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

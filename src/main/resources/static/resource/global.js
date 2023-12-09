@@ -19,6 +19,7 @@ $(function () {
     });
 });
 
+<!-- URL에서 파라미터를 받아서 객체로 파싱-->
 function getQueryParams(){
     const params = new URLSearchParams(window.location.search)
     const paramsObj = {};

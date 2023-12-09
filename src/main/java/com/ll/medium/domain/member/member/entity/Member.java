@@ -1,5 +1,6 @@
 package com.ll.medium.domain.member.member.entity;
 
+import com.ll.medium.domain.aticle.article.entity.Article;
 import com.ll.medium.domain.member.member.memberDto.MemberDto;
 import com.ll.medium.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -32,6 +33,9 @@ public class Member extends BaseEntity {
     @CollectionTable(name = "member_authorities", joinColumns = @JoinColumn(name = "member_id"))
     @Column(name = "authority")
     private List<String> memberAuthorities;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private List<Article> articleList;
 
     public static Member dtoToEntity(MemberDto entity){
         initMemberAuthorities(entity);
