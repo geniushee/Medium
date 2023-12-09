@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class homeController {
     @GetMapping("/")
     public String showMain(){
+        // todo 최신글 30개 노출
         return "domain/home/home/main";
     }
 
