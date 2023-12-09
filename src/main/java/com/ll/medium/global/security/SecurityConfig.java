@@ -34,6 +34,7 @@ public class SecurityConfig {
                                 // 로그인 URL 로그인 필요시 자동 이동
                                 .loginPage("/member/signin")
                                 // 로그인 실패시 URL
+                                .loginPage("/member/signin")
                                 .failureUrl("/member/signin?error=true")
                                 .loginProcessingUrl("/member/signin")
                                 .usernameParameter("memberName")
