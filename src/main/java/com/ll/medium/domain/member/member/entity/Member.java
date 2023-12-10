@@ -35,7 +35,6 @@ public class Member extends BaseEntity {
     @Column(name = "authority")
     private List<String> memberAuthorities;
 
-
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
     private List<Article> articleList;
 

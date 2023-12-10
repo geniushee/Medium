@@ -9,12 +9,14 @@ public class ArticleDto {
     private String title;
     private String body;
     private Member author;
+    private boolean published;
 
     public Article toEntity(Article entity){
         return Article.builder()
                 .title(entity.getTitle())
                 .body(entity.getBody())
                 .author(entity.getAuthor())
+                .published(entity.isPublished())
                 .build();
     }
 }
