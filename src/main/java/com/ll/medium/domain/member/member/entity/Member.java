@@ -22,7 +22,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor(access = PROTECTED)
 @NoArgsConstructor(access = PROTECTED)
 public class Member extends BaseEntity {
-
+    @Column(unique = true)
     private String memberName;
 
     private String memberPassword;

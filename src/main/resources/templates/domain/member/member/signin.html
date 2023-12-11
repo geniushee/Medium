@@ -5,7 +5,7 @@
     <script th:if="${param.error}"> <!-- 로그인 실패시 error=true를 받음-->
         alert("ID 및 비밀번호가 일치하지 않습니다. \nID와 비밀번호를 확인해 주세요.")
     </script>
-    <form th:action class="flex flex-col items-center gap-4" onsubmit="submitJoinForm(this)"
+    <form th:action class="flex flex-col items-center gap-4" onsubmit="submitJoinForm(this); return false;"
     method="POST">
         <label class="form-control w-full max-w-xs">
             <div class="label">

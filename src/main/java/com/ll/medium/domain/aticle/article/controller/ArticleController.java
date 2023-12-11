@@ -1,10 +1,15 @@
 package com.ll.medium.domain.aticle.article.controller;
 
+import com.ll.medium.domain.aticle.article.DTO.ArticleDto;
 import com.ll.medium.domain.aticle.article.service.ArticleService;
 import com.ll.medium.global.Rq.Rq;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -20,14 +25,21 @@ public class ArticleController {
 
     // TODO 글 상세내용 조회: ?번 글 상세보기 get - '/post/1''
 
-    // TODO 글 작성 : 글 작성 폼 get - '/post/write'
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
     public String showWriteForm(){
         return "domain/article/article/writeForm";
     }
 
-
-    // TODO 글 작성 : 글 작성 처리 post - '/post/write'
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/write")
+    public String writeArticle(@Valid ArticleDto articleDto,
+                               BindingResult bindingResult){
+        String memberName = rq.getUser().getUsername();
+        articleService.saveArticle(articleDto, memberName);
+        // TODO redirect 위치 변경 필요 / -> list (23.12.11)
+        return rq.redirect("/", "글 작성이 성공적으로 완료되었습니다.");
+    }
 
     // TODO 글 수정 : 글 수정 폼 get - '/post/1/modify'
 
