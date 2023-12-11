@@ -1,14 +1,14 @@
-<html layout:decorator="~{global/layout}"xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{global/layout}"xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <div layout:fragment="content">
-    <form th:action method="post" class="container">
-        <label class="form-control w-full max-w-xs">
+    <form th:action method="post" class="container flex flex-col mx-auto gap-4" onsubmit="submitWriteForm(this); return false;">
+        <label class="form-control w-full">
             <div class="label">
                 <span class="label-text">Title</span>
             </div>
-            <input type="text" name="title" placeholder="제목을 작성해주세요." class="input input-bordered w-full max-w-xs" />
+            <input type="text" name="title" placeholder="제목을 작성해주세요." class="input input-bordered w-full"/>
         </label>
-        <label class="form-control w-full max-w-xs">
+        <label class="form-control w-full">
             <div class="label">
                 <span class="label-text">Contents</span>
             </div>
@@ -17,10 +17,22 @@
         </label>
         <div class="form-control">
             <label class="cursor-pointer label">
-                <span class="label-text">공개/비공개</span>
+                <span class="label-text mx-5">공개 / 비공개</span>
                 <input type="checkbox" name="published" checked="checked" class="checkbox checkbox-success" />
             </label>
         </div>
+        <div class="flex justify-center">
+            <a href="/" class="btn mx-5">이전</a> <!-- 나중에 List로 URL 변경 -->
+            <button type="submit" class="btn btn-accent mx-5">작성</button>
+        </div>
+
     </form>
 </div>
+
+<script>
+    function submitWriteForm(form){
+
+        form.submit();
+    }
+</script>
 </html>

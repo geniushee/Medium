@@ -4,9 +4,12 @@ import com.ll.medium.domain.aticle.article.service.ArticleService;
 import com.ll.medium.global.Rq.Rq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/post")
 public class ArticleController {
     private final ArticleService articleService;
     private final Rq rq;
@@ -18,6 +21,11 @@ public class ArticleController {
     // TODO 글 상세내용 조회: ?번 글 상세보기 get - '/post/1''
 
     // TODO 글 작성 : 글 작성 폼 get - '/post/write'
+    @GetMapping("/write")
+    public String showWriteForm(){
+        return "domain/article/article/writeForm";
+    }
+
 
     // TODO 글 작성 : 글 작성 처리 post - '/post/write'
 
