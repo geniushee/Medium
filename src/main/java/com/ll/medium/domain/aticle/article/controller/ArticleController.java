@@ -1,6 +1,7 @@
 package com.ll.medium.domain.aticle.article.controller;
 
 import com.ll.medium.domain.aticle.article.DTO.ArticleDto;
+import com.ll.medium.domain.aticle.article.entity.Article;
 import com.ll.medium.domain.aticle.article.service.ArticleService;
 import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.global.Rq.Rq;
@@ -8,10 +9,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +25,13 @@ public class ArticleController {
     private final Rq rq;
 
     // TODO 글 목록 조회: 전체 글 리스트 (공개된 글만 노출) get - '/post/list'
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/list")
+    public String showPublicArticle(Model model){
+        List<Article> list = articleService.findAllByPublished();
+        model.addAttribute("publicList", list);
+        return "domain/article/article/list";
+    }
 
     // TODO 내 글 목록 조회: 내 글 리스트 조회 get - '/post/myList'
 

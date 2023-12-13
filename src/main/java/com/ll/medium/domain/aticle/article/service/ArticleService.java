@@ -8,6 +8,8 @@ import com.ll.medium.domain.member.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
@@ -22,5 +24,9 @@ public class ArticleService {
                 .published(dto.isPublished())
                 .build();
         articleRepository.save(article);
+    }
+
+    public List<Article> findAllByPublished() {
+        return articleRepository.findByPublished(true);
     }
 }
