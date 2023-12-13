@@ -6,7 +6,7 @@
     <div>[[${article.author.memberName}]]</div>
     <div>[[${article.createDate}]]</div>
     <div>
-        <a class="btn" th:href="|${article.id}/modify|">수정</a>
+        <a th:if="${@rq.getMember() == article.author}" class="btn" th:href="|${article.id}/modify|">수정</a>
     </div>
 </div>
 
