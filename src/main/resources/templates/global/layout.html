@@ -25,7 +25,7 @@
 <!-- 페이지에서 msg가 있으면 경고창 생성 -->
 <script>
     const queryParams = getQueryParams();
-    if (queryParams.msg){
+    if (queryParams.msg != null){
         alert(queryParams.get(msg))
     }
 </script>
