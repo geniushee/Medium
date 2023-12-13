@@ -7,17 +7,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleDto {
+    private long id;
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
     private String title;
     private String body;
     private Member author;
     private boolean published;
 
     public ArticleDto(Article article){
+        this.id = article.getId();
+        this.createDate = article.getCreateDate();
+        this.modifiedDate = article.getModifyDate();
         this.title = article.getTitle();
         this.body = article.getBody();
         this.author = article.getAuthor();

@@ -11,9 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,10 +22,8 @@ public class ArticleController {
     private final ArticleService articleService;
     private final Rq rq;
 
-    // TODO 글 목록 조회: 전체 글 리스트 (공개된 글만 노출) get - '/post/list'
-    @PreAuthorize("isAnonymous()")
     @GetMapping("/list")
-    public String showPublicArticle(Model model){
+    public String showPublicArticle(Model model) {
         List<Article> list = articleService.findAllByPublished();
         model.addAttribute("publicList", list);
         return "domain/article/article/list";
@@ -36,21 +32,27 @@ public class ArticleController {
     // TODO 내 글 목록 조회: 내 글 리스트 조회 get - '/post/myList'
 
     // TODO 글 상세내용 조회: ?번 글 상세보기 get - '/post/1''
+    @GetMapping("/{id}")
+    public String showArticleDetails(@PathVariable("id") long id,
+                                     Model model) {
+        ArticleDto dto = articleService.findById(id);
+        model.addAttribute("article", dto);
+        return "domain/article/article/articleDetails";
+    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
-    public String showWriteForm(){
+    public String showWriteForm() {
         return "domain/article/article/writeForm";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/write")
     public String writeArticle(@Valid ArticleDto articleDto,
-                               BindingResult bindingResult){
+                               BindingResult bindingResult) {
         Member member = rq.getMember();
         articleService.writeArticle(articleDto, member);
-        // TODO redirect 위치 변경 필요 / -> list (23.12.11)
-        return rq.redirect("/", "글 작성이 성공적으로 완료되었습니다.");
+        return rq.redirect("domain/article/article/list", "글 작성이 성공적으로 완료되었습니다.");
     }
 
     // TODO 글 수정 : 글 수정 폼 get - '/post/1/modify'

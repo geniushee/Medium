@@ -6,6 +6,7 @@ import com.ll.medium.domain.member.member.service.MemberService;
 import com.ll.medium.global.Rq.Rq;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +21,13 @@ public class memberController {
     private final MemberService memberService;
     private final Rq rq;
 
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/join")
     public String showMemberJoin() {
         return "domain/member/member/join";
     }
 
+    @PreAuthorize("isAnonymous()")
     @PostMapping("/join")
     public String joinMember(@Valid JoinForm joinForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
@@ -44,6 +47,7 @@ public class memberController {
         return "redirect:/";
     }
 
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/signin")
     public String showSignIn(){
         return "domain/member/member/signin";
