@@ -39,10 +39,12 @@ public class InitDevData {
             for (int i = 1; i < 4; i++) {
                 Member member = Member.dtoToEntity(memberService.findById((long) i));
                 for (int j = 0; j < i * 50; j++) {
+                    boolean publish = true;
+                    if (j % 3 == 0) publish = false;
                     Article article = Article.builder()
                             .title("제목" + j)
                             .body("내용" + j)
-                            .published(true)
+                            .published(publish)
                             .build();
                     ArticleDto dto = new ArticleDto(article);
                     articleService.writeArticle(dto, member);
