@@ -7,6 +7,7 @@
     <div>[[${article.createDate}]]</div>
     <div>
         <a th:if="${@rq.getMember() == article.author}" class="btn" th:href="|${article.id}/modify|">수정</a>
+        <a method="POST" th:if="${@rq.getMember() == article.author}" class="btn" th:href="|${article.id}/delete|">삭제</a>
     </div>
 </div>
 

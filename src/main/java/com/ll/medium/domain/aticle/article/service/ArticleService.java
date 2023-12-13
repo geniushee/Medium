@@ -6,6 +6,8 @@ import com.ll.medium.domain.aticle.article.repository.ArticleRepository;
 import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.domain.member.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,5 +50,17 @@ public class ArticleService {
         article.setPublished(dto.isPublished());
         Article result = articleRepository.save(article);
         return new ArticleDto(result);
+    }
+
+    public void deleteArticle(long id) {
+        Optional<Article> opArticle = articleRepository.findById(id);
+        if (opArticle.isEmpty()){
+            throw new IllegalArgumentException("잘못된 입력입니다.");
+        }
+        articleRepository.delete(opArticle.get());
+    }
+
+    public Page<Article> findAllByPageable(Pageable pageable) {
+        return articleRepository.findAll(pageable);
     }
 }

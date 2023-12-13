@@ -85,7 +85,12 @@ public class ArticleController {
         return rq.redirect("/post/%d".formatted(id),"수정이 완료되었습니다.");
     }
 
-    // TODO 글 삭제 : ?번 글 삭제 delete - '/post/1/delete'
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{id}/delete")
+    public String deleteArticle(@PathVariable("id") long id){
+        articleService.deleteArticle(id);
+        return rq.redirect("/post/list", "%d번 글이 삭제되었습니다.".formatted(id));
+    }
 
     // TODO 특정 회원의 글 모아보기 : 회원 user1의 전체 글 리스트 get - '/b/user1'
 

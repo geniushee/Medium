@@ -1,6 +1,55 @@
 <html layout:decorate="~{global/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-<div layout:fragment="content">
-<div class="m-5 justify-center text-green-900">Main</div>
+<div layout:fragment="content" class="container justify-center">
+    <div>
+        <span class="text-lg">최근 30개 글 목록</span>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="table table-zebra">
+            <!-- head -->
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody th:each="article, loop : ${page}">
+            <!-- row -->
+            <tr class="mx-auto">
+                <th>[[${page.size - loop.index}]]</th>
+                <td><a th:href="|/post/${article.id}|">[[${article.title}]]</a></td>
+                <td>[[${article.author.memberName}]]</td>
+                <td>[[${article.createDate}]]</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--    <hr> 공부용-->
+
+    <!--    <h1>page.content</h1>-->
+    <!--    [[${page.content}]]-->
+
+    <!--    <h1>page.number</h1>-->
+    <!--    [[${page.number}]]-->
+
+    <!--    <h1>page.totalPages</h1>-->
+    <!--    [[${page.totalPages}]]-->
+
+    <!--    <h1>page.totalElements</h1>-->
+    <!--    [[${page.totalElements}]]-->
+
+    <!--    <h1>page.size</h1>-->
+    <!--    [[${page.size}]]-->
+
+    <!--    <h1>page.numberOfElements</h1>-->
+    <!--    [[${page.numberOfElements}]]-->
+
+    <!--    <h1>page.first</h1>-->
+    <!--    [[${page.first}]]-->
+
+    <!--    <h1>page.last</h1>-->
+    <!--    [[${page.last}]]-->
 </div>
 </html>
