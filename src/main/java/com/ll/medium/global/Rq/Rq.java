@@ -1,5 +1,8 @@
 package com.ll.medium.global.Rq;
 
+import com.ll.medium.domain.member.member.entity.Member;
+import com.ll.medium.domain.member.member.memberDto.MemberDto;
+import com.ll.medium.domain.member.member.service.MemberService;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +24,9 @@ import java.nio.charset.StandardCharsets;
 public class Rq {
     private final HttpServletRequest req;
     private final HttpServletResponse resp;
+    private final MemberService memberService;
     private User user;
+    private Member member;
 
     @PostConstruct
     public void init(){
@@ -42,7 +47,14 @@ public class Rq {
         return "redirect:" + page + "?msg=" + encodedMsg;
     }
 
-
+public Member getMember(){
+        if (user == null){
+            return null;
+        }
+        String username = user.getUsername();
+        MemberDto memberDto = memberService.findByMemberName(username);
+        return Member.dtoToEntity(memberDto);
+}
 
     public boolean isLogined(){
         return user != null;

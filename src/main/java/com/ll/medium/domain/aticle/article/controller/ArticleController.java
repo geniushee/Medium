@@ -2,6 +2,7 @@ package com.ll.medium.domain.aticle.article.controller;
 
 import com.ll.medium.domain.aticle.article.DTO.ArticleDto;
 import com.ll.medium.domain.aticle.article.service.ArticleService;
+import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.global.Rq.Rq;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,8 @@ public class ArticleController {
     @PostMapping("/write")
     public String writeArticle(@Valid ArticleDto articleDto,
                                BindingResult bindingResult){
-        String memberName = rq.getUser().getUsername();
-        articleService.saveArticle(articleDto, memberName);
+        Member member = rq.getMember();
+        articleService.writeArticle(articleDto, member);
         // TODO redirect 위치 변경 필요 / -> list (23.12.11)
         return rq.redirect("/", "글 작성이 성공적으로 완료되었습니다.");
     }

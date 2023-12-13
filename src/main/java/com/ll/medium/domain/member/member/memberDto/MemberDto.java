@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -16,6 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 public class MemberDto {
     private long memberId;
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
     private String memberName;
     private String memberPassword;
     private String memberEmail;
@@ -24,6 +27,8 @@ public class MemberDto {
 
     public MemberDto(Member member) {
         this.memberId = member.getId();
+        this.createDate = member.getCreateDate();
+        this.modifiedDate = member.getModifyDate();
         this.memberName = member.getMemberName();
         this.memberPassword = member.getMemberPassword();
         this.memberEmail = member.getMemberEmail();

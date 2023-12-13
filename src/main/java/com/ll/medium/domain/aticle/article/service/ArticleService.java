@@ -14,8 +14,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final MemberService memberService;
 
-    public void saveArticle(ArticleDto dto, String memberName) {
-        Member member = Member.dtoToEntity(memberService.findByMemberName(memberName));
+    public void writeArticle(ArticleDto dto, Member member) {
         Article article = Article.builder()
                 .title(dto.getTitle())
                 .body(dto.getBody())
