@@ -36,4 +36,17 @@ public class ArticleService {
         return new ArticleDto(opArticle
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다.")));
     }
+
+    public ArticleDto modifyArticle(long id, ArticleDto dto) {
+        Optional<Article> opArticle = articleRepository.findById(id);
+        if (opArticle.isEmpty()){
+            throw new IllegalArgumentException("존재하지 않는 글입니다.");
+        }
+        Article article = opArticle.get();
+        article.setTitle(dto.getTitle());
+        article.setBody(dto.getBody());
+        article.setPublished(dto.isPublished());
+        Article result = articleRepository.save(article);
+        return new ArticleDto(result);
+    }
 }

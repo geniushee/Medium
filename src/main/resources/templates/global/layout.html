@@ -22,10 +22,10 @@
 <nav th:replace="~{global/navbar :: navbar}"></nav>
 
 
-<!-- 페이지에서 msg가 있으면 경고창 생성 -->
+<!-- 페이지에서 msg가 있으면 경고창 생성, 안뜨네?? TODO 뜨게 만들어보자-->
 <script>
     const queryParams = getQueryParams();
-    if (queryParams.msg != null){
+    if (queryParams.get(msg) != null){
         alert(queryParams.get(msg))
     }
 </script>
