@@ -32,4 +32,10 @@ public class MemberService {
         String encodedPassword = passwordEncoder.encode(memberDto.getMemberPassword());
         memberDto.setMemberPassword(encodedPassword);
     }
+
+    public MemberDto findById(Long id) {
+        Optional<Member> opMember = memberRepository.findById(id);
+        return new MemberDto(opMember
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 ID입니다.")));
+    }
 }

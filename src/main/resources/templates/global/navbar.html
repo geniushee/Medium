@@ -6,16 +6,17 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
                 </div>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a href="/">Homepage</a></li>
-                    <li th:if="${@rq.isLogined}"><a href="/member/profile">내정보</a></li>
                     <li th:if="${@rq.isLogined}"><a method="POST" href="/member/logout">로그아웃</a></li>
                     <li th:if="${!@rq.isLogined}"><a href="/member/join">Sign Up</a></li>
                     <li th:if="${!@rq.isLogined}"><a href="/member/signin">Sign In</a></li>
+                    <li th:if="${@rq.isLogined}"><a href="/post/myList">내 글 모아보기</a></li>
+                    <li><a href="/post/list">글 목록</a></li>
+                    <li th:if="${@rq.isLogined()}"><a href="/post/write">글 작성</a></li>
                 </ul>
             </div>
         </div>
         <div class="navbar-center">
-            <a class="btn btn-ghost text-xl">Medium</a>
+            <a href="/" class="btn btn-ghost text-xl">Medium</a>
         </div>
         <div class="navbar-end">
             <button class="btn btn-ghost btn-circle">

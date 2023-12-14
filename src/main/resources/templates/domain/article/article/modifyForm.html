@@ -1,0 +1,40 @@
+<html layout:decorate="~{global/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<div layout:fragment="content">
+    <form th:action method="POST" class="container flex flex-col mx-auto gap-4" onsubmit="submitWriteForm(this); return false;">
+        <label class="form-control w-full">
+            <div class="label">
+                <span class="label-text">Title</span>
+            </div>
+            <input type="text" name="title" placeholder="제목을 작성해주세요."
+                   th:value="${article.title}" class="input input-bordered w-full"/>
+        </label>
+        <label class="form-control w-full">
+            <div class="label">
+                <span class="label-text">Contents</span>
+            </div>
+            <textarea name="body" placeholder="내용을 작성해주세요."
+                       class="textarea textarea-bordered h-24">[[${article.body}]]</textarea>
+        </label>
+        <div class="form-control">
+            <label class="cursor-pointer label">
+                <span class="label-text mx-5">공개 / 비공개</span>
+                <input type="checkbox" name="published" checked="checked"
+                       th:value="${article.published}" class="checkbox checkbox-success"/>
+            </label>
+        </div>
+        <div class="flex justify-center">
+            <a href="/post/list" class="btn mx-5">이전</a>
+            <button type="submit" class="btn btn-accent mx-5">수정</button>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    function submitWriteForm(form){
+
+        form.submit();
+    }
+</script>
+</html>

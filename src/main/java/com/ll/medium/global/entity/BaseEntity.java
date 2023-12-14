@@ -2,26 +2,21 @@ package com.ll.medium.global.entity;
 
 
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@EqualsAndHashCode
 public class BaseEntity {
 
     @Id
@@ -33,7 +28,7 @@ public class BaseEntity {
     @CreationTimestamp
     private LocalDateTime createDate;
 
-
-    @UpdateTimestamp
+    @LastModifiedDate
+    @Setter
     private LocalDateTime modifyDate;
 }

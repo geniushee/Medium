@@ -6,6 +6,7 @@ import com.ll.medium.domain.member.member.memberDto.MemberDto;
 import com.ll.medium.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,8 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor(access = PROTECTED)
 @NoArgsConstructor(access = PROTECTED)
 public class Member extends BaseEntity {
-
+    @NotNull
+    @Column(unique = true)
     private String memberName;
 
     private String memberPassword;
@@ -35,17 +37,19 @@ public class Member extends BaseEntity {
     @Column(name = "authority")
     private List<String> memberAuthorities;
 
-
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Article> articleList;
 
-    public static Member dtoToEntity(MemberDto entity){
-        initMemberAuthorities(entity);
+    public static Member dtoToEntity(MemberDto dto){
+        initMemberAuthorities(dto);
         return Member.builder()
-                .memberName(entity.getMemberName())
-                .memberPassword(entity.getMemberPassword())
-                .memberEmail(entity.getMemberEmail())
-                .memberAuthorities(entity.getMemberAuthorities())
+                .id(dto.getMemberId())
+                .createDate(dto.getCreateDate())
+                .modifyDate(dto.getModifiedDate())
+                .memberName(dto.getMemberName())
+                .memberPassword(dto.getMemberPassword())
+                .memberEmail(dto.getMemberEmail())
+                .memberAuthorities(dto.getMemberAuthorities())
                 .build();
     }
 
