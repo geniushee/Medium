@@ -109,7 +109,4 @@ public class ArticleController {
         return rq.redirect("/post/list", "%d번 글이 삭제되었습니다.".formatted(id));
     }
 
-    // TODO 특정 회원의 글 모아보기 : 회원 user1의 전체 글 리스트 get - '/b/user1'
-
-    // TODO 특정 회원의 글 모아보기 : 회원 user1의 글 중에서 3번 글 상세보기 get - '/b/user1/3'
 }
