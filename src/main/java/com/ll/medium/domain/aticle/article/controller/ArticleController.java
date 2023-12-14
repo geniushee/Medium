@@ -8,15 +8,17 @@ import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.global.Rq.Rq;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -33,7 +35,22 @@ public class ArticleController {
         return "domain/article/article/list";
     }
 
-    // TODO 내 글 목록 조회: 내 글 리스트 조회 get - '/post/myList'
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/myList")
+    public String showMyArticle(@RequestParam(value = "page", defaultValue = "0") int page,
+                                Model model){
+        // pagination
+        int pageSize = 10;
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, pageSize,Sort.by(sorts));
+
+        // get member
+        Member member = rq.getMember();
+        Page<Article> paging = articleService.findAllByAuthor(member, pageable);
+        model.addAttribute("paging", paging);
+        return "domain/article/article/myList";
+    }
 
     @GetMapping("/{id}")
     public String showArticleDetails(@PathVariable("id") long id,

@@ -63,4 +63,9 @@ public class ArticleService {
     public Page<Article> findAllByPageable(Pageable pageable) {
         return articleRepository.findAll(pageable);
     }
+
+    public Page<Article> findAllByAuthor(Member member, Pageable pageable) {
+        return articleRepository.findByAuthor(member, pageable);
+
+    }
 }
