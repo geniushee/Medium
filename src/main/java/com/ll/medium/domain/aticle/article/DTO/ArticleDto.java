@@ -21,6 +21,7 @@ public class ArticleDto {
     private String body;
     private Member author;
     private boolean published;
+    private boolean isPaid;
 
     public ArticleDto(Article article){
         this.id = article.getId();
@@ -30,5 +31,6 @@ public class ArticleDto {
         this.body = article.getBody();
         this.author = article.getAuthor();
         this.published = article.isPublished();
+        this.isPaid = article.isPaid();
     }
 }

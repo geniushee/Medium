@@ -24,6 +24,7 @@ public class Article extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member author;
     private boolean published;
+    private boolean isPaid;
 
     public Article dtoToEntity(ArticleDto dto){
         return Article.builder()
@@ -31,6 +32,7 @@ public class Article extends BaseEntity {
                 .body(dto.getBody())
                 .author(dto.getAuthor())
                 .published(dto.isPublished())
+                .isPaid(dto.isPaid())
                 .build();
     }
 
