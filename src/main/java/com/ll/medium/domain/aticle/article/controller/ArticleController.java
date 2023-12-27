@@ -55,7 +55,9 @@ public class ArticleController {
     @GetMapping("/{id}")
     public String showArticleDetails(@PathVariable("id") long id,
                                      Model model) {
-        ArticleDto dto = articleService.findById(id);
+        Member member = rq.getMember();
+//        ArticleDto dto = articleService.findById(id); // 이전
+        ArticleDto dto = articleService.showArticleDetails(id, member); // 개선
         model.addAttribute("article", dto);
         return "domain/article/article/articleDetails";
     }
