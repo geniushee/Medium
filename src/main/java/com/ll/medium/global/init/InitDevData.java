@@ -27,6 +27,7 @@ public class InitDevData {
                         .memberName("user" + i)
                         .memberPassword("1234")
                         .memberEmail("user" + i + "@user.com")
+                        .isPaid(true)
                         .build();
                 memberService.joinMember(member);
             }
@@ -34,6 +35,7 @@ public class InitDevData {
                     .memberName("admin")
                     .memberPassword("1234")
                     .memberEmail("admin@user.com")
+                    .isPaid(true)
                     .build();
             memberService.joinMember(admin);
             for (int i = 1; i < 4; i++) {

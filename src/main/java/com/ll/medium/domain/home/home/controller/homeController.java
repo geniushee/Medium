@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class homeController {
     private final ArticleService articleService;
 
+    // TODO 23.12.15 true가 아닌것도 보인다;;
     @GetMapping("/")
     public String showMain(Model model){
         int pageNum = 0;

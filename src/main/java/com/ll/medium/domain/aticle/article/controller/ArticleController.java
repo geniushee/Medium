@@ -72,7 +72,7 @@ public class ArticleController {
                                BindingResult bindingResult) {
         Member member = rq.getMember();
         articleService.writeArticle(articleDto, member);
-        return rq.redirect("domain/article/article/list", "글 작성이 성공적으로 완료되었습니다.");
+        return rq.redirect("/post/list", "글 작성이 성공적으로 완료되었습니다.");
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -109,4 +109,10 @@ public class ArticleController {
         return rq.redirect("/post/list", "%d번 글이 삭제되었습니다.".formatted(id));
     }
 
+    // TODO 조회수 증가
+    // TODO 1. /post/5/increaseHit 엔드포인트 설정
+    // TODO 2. 작성자가 아니여야 한다.
+    // TODO 3. redirect를 할지 post로 조회를 할지 결정
+    // TODO 4. article 조회수 필드 추가
+    //
 }

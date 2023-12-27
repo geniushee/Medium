@@ -53,9 +53,6 @@ public class memberController {
         return "domain/member/member/signin";
     }
 
-//    @PostMapping("/signin")  // security의 formLogin 사용
-//    public String signIn(@Valid MemberDto memberDto){
-//        memberService.signIn(memberDto);
-//        return "redirect:/";
-//    }
+
+
 }

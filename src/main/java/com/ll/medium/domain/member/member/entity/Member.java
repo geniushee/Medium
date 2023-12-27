@@ -40,6 +40,8 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Article> articleList;
 
+    private boolean isPaid;
+
     public static Member dtoToEntity(MemberDto dto){
         initMemberAuthorities(dto);
         return Member.builder()
@@ -59,7 +61,11 @@ public class Member extends BaseEntity {
         if (memberDto.getMemberName().contains("admin")){
             authorities.add("ROLE_ADMIN");
         }
+        if (memberDto.isPaid()){
+            authorities.add("ROLE_PAID");
+        }
         authorities.add("ROLE_MEMBER");
+
 
         memberDto.setMemberAuthorities(authorities);
 
