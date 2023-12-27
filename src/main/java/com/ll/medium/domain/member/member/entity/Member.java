@@ -51,6 +51,7 @@ public class Member extends BaseEntity {
                 .memberName(dto.getMemberName())
                 .memberPassword(dto.getMemberPassword())
                 .memberEmail(dto.getMemberEmail())
+                .isPaid(dto.isPaid())
                 .memberAuthorities(dto.getMemberAuthorities())
                 .build();
     }

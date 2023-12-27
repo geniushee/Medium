@@ -1,17 +1,28 @@
 package com.ll.medium.domain.member.member.controller;
 
+import com.ll.medium.domain.aticle.article.entity.Article;
+import com.ll.medium.domain.aticle.article.service.ArticleService;
 import com.ll.medium.domain.member.member.Data.JoinForm;
+import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.domain.member.member.memberDto.MemberDto;
 import com.ll.medium.domain.member.member.service.MemberService;
 import com.ll.medium.global.Rq.Rq;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/member")
@@ -19,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class memberController {
 
     private final MemberService memberService;
+    private final ArticleService articleService;
     private final Rq rq;
 
     @PreAuthorize("isAnonymous()")
@@ -53,6 +65,22 @@ public class memberController {
         return "domain/member/member/signin";
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/profile")
+    public String showProfile(@RequestParam(name = "page", defaultValue = "0") int page,
+            Model model){
+        // pageable
+        int pageSize = 30;
+        ArrayList<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(sorts));
+
+        Member member = rq.getMember();
+        Page<Article> pages = articleService.findAllByAuthor(member,pageable);
+        model.addAttribute("myInfo", member);
+        model.addAttribute("articles", pages);
+        return "domain/member/member/profile";
+    }
 
 
 }

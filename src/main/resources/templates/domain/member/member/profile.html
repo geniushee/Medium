@@ -1,6 +1,22 @@
 <html layout:decorate="~{global/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <div layout:fragment="content">
+    <div>
+        <div>[[${myInfo.memberName}]]</div>
+        <div>[[${myInfo.memberEmail}]]</div>
+        <div th:if="${myInfo.isPaid()}">유료회원</div>
+    </div>
+    <div>
+        <div>작성한 글 목록</div>
+        <ul th:each="article, loop : ${articles}">
+            <li>
+                <a th:href="|/post/${article.id}|">[[${article.title}]]</a>
+            </li>
+        </ul>
+        <div th:each="page : ${#numbers.sequence(0, articles.totalPages - 1)}">
+            <a th:href="|?page=${page}|" th:value="${page}"></a>
+        </div>
+    </div>
 
 </div>
 
