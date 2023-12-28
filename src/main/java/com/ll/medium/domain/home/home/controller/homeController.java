@@ -4,10 +4,6 @@ import com.ll.medium.domain.aticle.article.entity.Article;
 import com.ll.medium.domain.aticle.article.service.ArticleService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,13 +22,15 @@ public class homeController {
     // TODO 23.12.15 true가 아닌것도 보인다;;
     @GetMapping("/")
     public String showMain(Model model){
-        int pageNum = 0;
-        int pageSize = 30;
-        List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
-        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sorts));
-        Page<Article> page = articleService.findAllByPageable(pageable);
-        model.addAttribute("page", page);
+//        int pageNum = 0;
+//        int pageSize = 30;
+//        List<Sort.Order> sorts = new ArrayList<>();
+//        sorts.add(Sort.Order.desc("createDate"));
+//        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sorts));
+//        Page<Article> page = articleService.findAllByPageable(pageable);
+        // pageabel -> Top30로 변경
+        ArrayList<Article> list = articleService.showMain();
+        model.addAttribute("list", list);
         return "domain/home/home/main";
     }
 

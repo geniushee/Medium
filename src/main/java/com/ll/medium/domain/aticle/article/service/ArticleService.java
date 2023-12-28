@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,12 +77,23 @@ public class ArticleService {
     }
 
     public ArticleDto showArticleDetails(long id, Member member) {
+        // 로그인 여부에 따른 에러 처리
+        boolean memberPaid;
+        if (member == null){
+            memberPaid = false;
+        } else{
+            memberPaid = member.isPaid();
+        }
+        // 유료 컨텐츠 처리
         ArticleDto dto =  findById(id);
-        boolean memberPaid = member.isPaid();
         if (!memberPaid && dto.isPaid()){
-            // 글이 유료, 무료 멤버인 경우 body 변경
+            // 글이 유료, 무료 멤버인 경우 body 변경(미로그인 포함)
             dto.setBody("이 글은 유료멤버십전용입니다.");
         }
         return dto;
+    }
+
+    public ArrayList<Article> showMain() {
+        return articleRepository.findTop30ByPublishedTrueOrderByCreateDateDesc();
     }
 }
