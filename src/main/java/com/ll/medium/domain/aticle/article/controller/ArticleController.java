@@ -9,17 +9,11 @@ import com.ll.medium.global.Rq.Rq;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,8 +23,9 @@ public class ArticleController {
     private final Rq rq;
 
     @GetMapping("/list")
-    public String showPublicArticle(Model model) {
-        List<Article> list = articleService.findAllByPublished();
+    public String showPublicArticle(@RequestParam(value = "page", defaultValue = "1") int page
+            ,Model model) {
+        Page<Article> list = articleService.findAllByPublished(page);
         model.addAttribute("publicList", list);
         return "domain/article/article/list";
     }
@@ -39,15 +34,10 @@ public class ArticleController {
     @GetMapping("/myList")
     public String showMyArticle(@RequestParam(value = "page", defaultValue = "0") int page,
                                 Model model){
-        // pagination
-        int pageSize = 10;
-        List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
-        Pageable pageable = PageRequest.of(page, pageSize,Sort.by(sorts));
-
         // get member
         Member member = rq.getMember();
-        Page<Article> paging = articleService.findAllByAuthor(member, pageable);
+
+        Page<Article> paging = articleService.findAllByAuthor(member, page);
         model.addAttribute("paging", paging);
         return "domain/article/article/myList";
     }

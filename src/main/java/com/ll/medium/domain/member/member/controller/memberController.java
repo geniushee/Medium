@@ -10,9 +10,6 @@ import com.ll.medium.global.Rq.Rq;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/member")
@@ -69,14 +64,9 @@ public class memberController {
     @GetMapping("/profile")
     public String showProfile(@RequestParam(name = "page", defaultValue = "0") int page,
             Model model){
-        // pageable
-        int pageSize = 30;
-        ArrayList<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(sorts));
 
         Member member = rq.getMember();
-        Page<Article> pages = articleService.findAllByAuthor(member,pageable);
+        Page<Article> pages = articleService.findAllByAuthor(member,page);
         model.addAttribute("myInfo", member);
         model.addAttribute("articles", pages);
         return "domain/member/member/profile";

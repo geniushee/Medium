@@ -7,7 +7,9 @@ import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.domain.member.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,8 +36,16 @@ public class ArticleService {
         articleRepository.save(article);
     }
 
-    public List<Article> findAllByPublished() {
-        return articleRepository.findByPublished(true);
+    public Page<Article> findAllByPublished(int page) {
+        //pagination
+        //page -1, view는 1부터 시작하지만 Page는 0부터 시작
+        page--;
+        int pagesize = 10;
+        ArrayList<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
+
+        return articleRepository.findByPublished(true, pageable);
     }
 
     public ArticleDto findById(long id) {
@@ -71,7 +81,14 @@ public class ArticleService {
         return articleRepository.findAll(pageable);
     }
 
-    public Page<Article> findAllByAuthor(Member member, Pageable pageable) {
+    public Page<Article> findAllByAuthor(Member member, int page) {
+        // pagination
+        int pageSize = 10;
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, pageSize,Sort.by(sorts));
+
+
         return articleRepository.findByAuthor(member, pageable);
 
     }

@@ -16,7 +16,7 @@
                 <div class="card bg-base-100 shadow-xl m-5">
                     <div class="card-body">
                         <a th:href="|/post/${article.id}|" class="card-title">[[${article.title}]]</a>
-                        <p>[[${article.body}]]</p>
+                        <p class="overflow-hidden whitespace-nowrap">[[${article.body}]]</p>
                         <div class="card-actions justify-end">
                             <button class="btn btn-primary">추천</button>
                         </div>
