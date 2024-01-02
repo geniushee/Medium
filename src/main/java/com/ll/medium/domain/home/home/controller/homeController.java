@@ -19,15 +19,8 @@ import java.util.stream.Collectors;
 public class homeController {
     private final ArticleService articleService;
 
-    // TODO 23.12.15 true가 아닌것도 보인다;;
     @GetMapping("/")
     public String showMain(Model model){
-//        int pageNum = 0;
-//        int pageSize = 30;
-//        List<Sort.Order> sorts = new ArrayList<>();
-//        sorts.add(Sort.Order.desc("createDate"));
-//        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sorts));
-//        Page<Article> page = articleService.findAllByPageable(pageable);
         // pageabel -> Top30로 변경
         ArrayList<Article> list = articleService.showMain();
         model.addAttribute("list", list);

@@ -103,7 +103,7 @@ public class ArticleService {
             memberPaid = member.isPaid();
         }
 
-        ArticleDto dto =  findById(id);
+        ArticleDto dto = findById(id);
         // RsData
         String msg = null;
         String error = null;
