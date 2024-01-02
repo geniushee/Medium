@@ -5,11 +5,11 @@
         <section class="flex flex-col">
             <!-- 카드형태 글 리스트 -->
             <div th:each="article : ${publicList}">
-                <div class="card w-full bg-base-100 shadow-xl m-5">
+                <a th:href="|/post/${article.id}|" class="card w-full bg-base-100 shadow-xl m-5">
                     <div class="card-body">
-                        <a th:href="|/post/${article.id}|" class="card-title overflow-hidden">[[${article.title}]]
+                        <p  class="card-title overflow-hidden">[[${article.title}]]
                             <span class="badge badge-outline">조회수</span>
-                        </a>
+                        </p>
                         <p class="overflow-hidden whitespace-nowrap">[[${article.body}]]</p>
                         <div class="card-actions justify-between">
                             <div class="justify-start">
@@ -22,7 +22,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <!--페이징-->
             <nav class="flex justify-center">

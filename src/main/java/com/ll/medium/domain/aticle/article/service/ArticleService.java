@@ -5,6 +5,7 @@ import com.ll.medium.domain.aticle.article.entity.Article;
 import com.ll.medium.domain.aticle.article.repository.ArticleRepository;
 import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.domain.member.member.service.MemberService;
+import com.ll.medium.global.rsdata.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -93,7 +94,7 @@ public class ArticleService {
 
     }
 
-    public ArticleDto showArticleDetails(long id, Member member) {
+    public RsData<ArticleDto> showArticleDetails(long id, Member member) {
         // 로그인 여부에 따른 에러 처리
         boolean memberPaid;
         if (member == null){
@@ -101,13 +102,30 @@ public class ArticleService {
         } else{
             memberPaid = member.isPaid();
         }
-        // 유료 컨텐츠 처리
+
         ArticleDto dto =  findById(id);
-        if (!memberPaid && dto.isPaid()){
-            // 글이 유료, 무료 멤버인 경우 body 변경(미로그인 포함)
-            dto.setBody("이 글은 유료멤버십전용입니다.");
+        // RsData
+        String msg = null;
+        String error = null;
+
+        // 작성자 - 본인 확인
+        if (dto.getAuthor() == member){
+            return new RsData<ArticleDto>(dto);
         }
-        return dto;
+
+        // published 여부 처리
+        if (dto.isPublished()){
+            // 유료 컨텐츠 처리
+            if (!memberPaid && dto.isPaid()){
+                // 글이 유료, 무료 멤버인 경우 body 변경(미로그인 포함)
+                dto.setBody("이 글은 유료멤버십전용입니다.");
+            }
+        }else{
+            dto = null;
+            msg = "비공개 글입니다.";
+            error = "자격없음";
+        }
+        return new RsData<>(dto,msg,error);
     }
 
     public ArrayList<Article> showMain() {

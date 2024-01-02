@@ -42,9 +42,9 @@ public class Rq {
         return page + "?msg=" + encodedMsg;
     }
 
-    public String redirect(String page, String msg){
+    public String redirect(String url, String msg){
         String encodedMsg = URLEncoder.encode(msg, StandardCharsets.UTF_8);
-        return "redirect:" + page + "?msg=" + encodedMsg;
+        return "redirect:" + url + "?msg=" + encodedMsg;
     }
 
 public Member getMember(){

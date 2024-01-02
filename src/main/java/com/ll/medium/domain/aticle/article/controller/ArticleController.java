@@ -6,6 +6,7 @@ import com.ll.medium.domain.aticle.article.entity.Article;
 import com.ll.medium.domain.aticle.article.service.ArticleService;
 import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.global.Rq.Rq;
+import com.ll.medium.global.rsdata.RsData;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -46,8 +47,13 @@ public class ArticleController {
     public String showArticleDetails(@PathVariable("id") long id,
                                      Model model) {
         Member member = rq.getMember();
-//        ArticleDto dto = articleService.findById(id); // 이전
-        ArticleDto dto = articleService.showArticleDetails(id, member); // 개선
+
+        RsData<ArticleDto> rs = articleService.showArticleDetails(id, member);
+        if (rs.getError().equals("자격없음")){
+            return rq.redirect("/post/list", rs.getMsg());
+        }
+
+        ArticleDto dto = rs.getObj();
         model.addAttribute("article", dto);
         return "domain/article/article/articleDetails";
     }
