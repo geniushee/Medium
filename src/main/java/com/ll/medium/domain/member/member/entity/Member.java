@@ -32,7 +32,7 @@ public class Member extends BaseEntity {
     @Email
     private String memberEmail;
 
-    @ElementCollection(fetch = FetchType.EAGER) // Todo eager말고 다른 방안은 없을까?? 간단해서 eager를 쓰긴했으나;
+    @ElementCollection(fetch = FetchType.LAZY) // Todo eager말고 다른 방안은 없을까?? 간단해서 eager를 쓰긴했으나;
     @CollectionTable(name = "member_authorities", joinColumns = @JoinColumn(name = "member_id"))
     @Column(name = "authority")
     private List<String> memberAuthorities;
