@@ -113,4 +113,19 @@ public class ArticleController {
     // TODO 3. redirect를 할지 post로 조회를 할지 결정
     // TODO 4. article 조회수 필드 추가
     //
+    @GetMapping("/{id}/increaseHit")
+    public String increaseHitOfArticle(@PathVariable("id") long id,
+                                       Model model){
+        // 기존 코드 복사
+        Member member = rq.getMember();
+
+        RsData<ArticleDto> rs = articleService.showArticleDetails(id, member);
+        if (rs.getError().equals("자격없음")){
+            return rq.redirect("/post/list", rs.getMsg());
+        }
+
+        ArticleDto dto = rs.getObj();
+        model.addAttribute("article", dto);
+        return "domain/article/article/articleDetails";
+    }
 }
