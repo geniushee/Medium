@@ -1,36 +1,30 @@
 <html layout:decorate="~{global/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-<div layout:fragment="content" class="container justify-center">
-    <div class="flex justify-between">
-        <span class="text-lg">최근 30개 글 목록</span>
-        <form id="searchForm" method="get">
-            <input type="search" placeholder="작성자명" name="memberName" id="memberNameInput">
-            <input type="submit" value="검색">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        </form>
-    </div>
-    <div class="overflow-x-auto">
-        <table class="table table-zebra">
-            <!-- head -->
-            <thead>
-            <tr>
-                <th>No.</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성일</th>
-            </tr>
-            </thead>
-            <tbody th:each="article, loop : ${page}">
-            <!-- row -->
-            <tr class="mx-auto">
-                <th>[[${page.size - loop.index}]]</th>
-                <td><a th:href="|/post/${article.id}|">[[${article.title}]]</a></td>
-                <td>[[${article.author.memberName}]]</td>
-                <td>[[${article.createDate}]]</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<div layout:fragment="content" class="flex justify-center">
+    <main class="container">
+        <header class="flex justify-between my-5">
+            <span class="text-lg">최근 30개 글 목록</span>
+            <form id="searchForm" method="get">
+                <input type="search" placeholder="작성자명" name="memberName" id="memberNameInput">
+                <input type="submit" value="검색">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            </form>
+        </header>
+        <!-- 카드형태 최신글 30개 -->
+        <section class="flex flex-wrap w-full">
+            <div th:each="article : ${list}" class="w-1/2">
+                <div class="card bg-base-100 shadow-xl m-5">
+                    <div class="card-body">
+                        <a th:href="|/post/${article.id}|" class="card-title">[[${article.title}]]</a>
+                        <p class="overflow-hidden whitespace-nowrap">[[${article.body}]]</p>
+                        <div class="card-actions justify-end">
+                            <button class="btn btn-primary">추천</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 </div>
 <script layout:fragment="script">
     document.addEventListener('DOMContentLoaded', function () {

@@ -13,12 +13,14 @@ public class ArticleForm {
     private final String body;
     @NotNull
     private final boolean published;
+    private boolean isPaid;
 
     public ArticleDto toDto() {
         return ArticleDto.builder()
                 .title(this.title)
                 .body(this.body)
                 .published(this.published)
+                .isPaid(this.isPaid)
                 .build();
     }
 }

@@ -32,13 +32,15 @@ public class Member extends BaseEntity {
     @Email
     private String memberEmail;
 
-    @ElementCollection(fetch = FetchType.EAGER) // Todo eager말고 다른 방안은 없을까?? 간단해서 eager를 쓰긴했으나;
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "member_authorities", joinColumns = @JoinColumn(name = "member_id"))
     @Column(name = "authority")
     private List<String> memberAuthorities;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Article> articleList;
+
+    private boolean isPaid;
 
     public static Member dtoToEntity(MemberDto dto){
         initMemberAuthorities(dto);
@@ -49,6 +51,7 @@ public class Member extends BaseEntity {
                 .memberName(dto.getMemberName())
                 .memberPassword(dto.getMemberPassword())
                 .memberEmail(dto.getMemberEmail())
+                .isPaid(dto.isPaid())
                 .memberAuthorities(dto.getMemberAuthorities())
                 .build();
     }
@@ -59,7 +62,11 @@ public class Member extends BaseEntity {
         if (memberDto.getMemberName().contains("admin")){
             authorities.add("ROLE_ADMIN");
         }
+        if (memberDto.isPaid()){
+            authorities.add("ROLE_PAID");
+        }
         authorities.add("ROLE_MEMBER");
+
 
         memberDto.setMemberAuthorities(authorities);
 
