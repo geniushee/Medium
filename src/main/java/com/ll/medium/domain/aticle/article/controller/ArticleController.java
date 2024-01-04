@@ -114,7 +114,8 @@ public class ArticleController {
     // TODO 2. 작성자가 아니여야 한다.
     // TODO 3. redirect를 할지 post로 조회를 할지 결정 완료
     // TODO 4. article 조회수 필드 추가 완료
-    // TODO 5. cookie를 사용하여 최근 조회 제외
+    // TODO 5.1 cookie를 사용하여 최근 조회 제외
+    // TODO 5.2 유료글 제외
     // TODO 6. 강사님과 비교
     @GetMapping("/{id}/increaseHit")
     public String increaseHitOfArticle(@PathVariable("id") long id,
