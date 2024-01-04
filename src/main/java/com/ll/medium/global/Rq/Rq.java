@@ -1,7 +1,6 @@
 package com.ll.medium.global.Rq;
 
 import com.ll.medium.domain.member.member.entity.Member;
-import com.ll.medium.domain.member.member.memberDto.MemberDto;
 import com.ll.medium.domain.member.member.service.MemberService;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,11 +51,15 @@ public Member getMember(){
             return null;
         }
         String username = user.getUsername();
-        MemberDto memberDto = memberService.findByMemberName(username);
-        return Member.dtoToEntity(memberDto);
+        member = Member.dtoToEntity(memberService.findByMemberName(username));
+        return member;
 }
 
     public boolean isLogined(){
         return user != null;
+    }
+
+    public String previousURL(){
+        return req.getHeader("referer");
     }
 }

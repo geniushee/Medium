@@ -41,12 +41,12 @@ public class memberController {
             return "domain/member/member/join";
         }
         if (joinForm.getMemberPassword() != joinForm.getMemberPasswordConfirm()){
-            return rq.direct("domain/member/member/join","비밀번호를 재확인해주세요.");
+            return rq.direct("/member/join","비밀번호를 재확인해주세요.");
         }
 
         String joinName = joinForm.getMemberName();
         if (memberService.findByMemberName(joinName) != null) {
-            return rq.direct("domain/member/member/join", "이미 존재하는 ID입니다.");
+            return rq.direct("/member/join", "이미 존재하는 ID입니다.");
         }
 
         MemberDto memberDto = joinForm.toDto();

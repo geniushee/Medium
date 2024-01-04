@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final MemberService memberService;
@@ -105,8 +106,8 @@ public class ArticleService {
 
         ArticleDto dto = findById(id);
         // RsData
-        String msg = null;
-        String error = null;
+        String msg = "";
+        String error = "";
 
         // 작성자 - 본인 확인
         if (dto.getAuthor() == member){
@@ -123,12 +124,29 @@ public class ArticleService {
         }else{
             dto = null;
             msg = "비공개 글입니다.";
-            error = "자격없음";
+            error = "비공개";
         }
         return new RsData<>(dto,msg,error);
     }
 
     public ArrayList<Article> showMain() {
         return articleRepository.findTop30ByPublishedTrueOrderByCreateDateDesc();
+    }
+
+    @Transactional
+    public void increaseHit(long id) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+        article.increaseHit();
+        articleRepository.save(article);
+    }
+
+    public boolean canModify(long id, Member member) {
+        return getAuthor(id).equals(member);
+    }
+
+    public Member getAuthor(long id){
+        Article article = articleRepository.findById(id).orElseThrow(RuntimeException::new);
+        return article.getAuthor();
     }
 }

@@ -22,6 +22,7 @@ public class ArticleDto {
     private Member author;
     private boolean published;
     private boolean isPaid;
+    private long hit;
 
     public ArticleDto(Article article){
         this.id = article.getId();
@@ -32,5 +33,7 @@ public class ArticleDto {
         this.author = article.getAuthor();
         this.published = article.isPublished();
         this.isPaid = article.isPaid();
+        this.hit = article.getHit();
     }
+
 }

@@ -3,10 +3,7 @@ package com.ll.medium.domain.aticle.article.entity;
 import com.ll.medium.domain.aticle.article.DTO.ArticleDto;
 import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.global.entity.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -17,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @ToString(callSuper = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class Article extends BaseEntity {
     private String title;
     private String body;
@@ -25,15 +23,22 @@ public class Article extends BaseEntity {
     private Member author;
     private boolean published;
     private boolean isPaid;
+    @Column(columnDefinition = "BIGINT DEFAULT 0")
+    private long hit;
 
-    public Article dtoToEntity(ArticleDto dto){
+    public static Article dtoToEntity(ArticleDto dto){
         return Article.builder()
                 .title(dto.getTitle())
                 .body(dto.getBody())
                 .author(dto.getAuthor())
                 .published(dto.isPublished())
                 .isPaid(dto.isPaid())
+                .hit(dto.getHit())
                 .build();
     }
 
+    public Article increaseHit(){
+        this.hit++;
+        return this;
+    }
 }

@@ -49,8 +49,9 @@ public class ArticleController {
         Member member = rq.getMember();
 
         RsData<ArticleDto> rs = articleService.showArticleDetails(id, member);
-        if (rs.getError().equals("자격없음")){
-            return rq.redirect("/post/list", rs.getMsg());
+        // 비공개글 처리
+        if (rs.getError().equals("비공개")){
+            return rq.redirect(rq.previousURL(), rs.getMsg());
         }
 
         ArticleDto dto = rs.getObj();
@@ -77,10 +78,11 @@ public class ArticleController {
     @GetMapping("/{id}/modify")
     public String showModifyForm(@PathVariable("id") long id,
                                  Model model){
-        ArticleDto dto = articleService.findById(id);
-        if (dto.getAuthor() != rq.getMember()){
-            return rq.redirect("/post/list", "작성자가 아닙니다.");
+
+        if (!articleService.canModify(id, rq.getMember())){
+            return rq.redirect(rq.previousURL(), "작성자가 아닙니다.");
         }
+        ArticleDto dto = articleService.findById(id);
         model.addAttribute("article", dto);
         return "domain/article/article/modifyForm";
     }
@@ -107,25 +109,23 @@ public class ArticleController {
         return rq.redirect("/post/list", "%d번 글이 삭제되었습니다.".formatted(id));
     }
 
-    // TODO 조회수 증가
-    // TODO 1. /post/5/increaseHit 엔드포인트 설정
+    // TODO 조회수 증가 완료
+    // TODO 1. /post/5/increaseHit 엔드포인트 설정 완료
     // TODO 2. 작성자가 아니여야 한다.
-    // TODO 3. redirect를 할지 post로 조회를 할지 결정
-    // TODO 4. article 조회수 필드 추가
-    //
+    // TODO 3. redirect를 할지 post로 조회를 할지 결정 완료
+    // TODO 4. article 조회수 필드 추가 완료
+    // TODO 5. cookie를 사용하여 최근 조회 제외
+    // TODO 6. 강사님과 비교
     @GetMapping("/{id}/increaseHit")
     public String increaseHitOfArticle(@PathVariable("id") long id,
                                        Model model){
-        // 기존 코드 복사
-        Member member = rq.getMember();
-
-        RsData<ArticleDto> rs = articleService.showArticleDetails(id, member);
-        if (rs.getError().equals("자격없음")){
-            return rq.redirect("/post/list", rs.getMsg());
+        // 작성자 본인 제외
+        if (articleService.canModify(id, rq.getMember())){
+            ArticleDto dto = articleService.findById(id);
+            model.addAttribute("article", dto);
+            return "domain/article/article/articleDetails";
         }
-
-        ArticleDto dto = rs.getObj();
-        model.addAttribute("article", dto);
-        return "domain/article/article/articleDetails";
+        articleService.increaseHit(id);
+        return showArticleDetails(id, model);
     }
 }
