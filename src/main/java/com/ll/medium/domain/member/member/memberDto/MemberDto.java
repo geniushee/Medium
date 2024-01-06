@@ -22,6 +22,7 @@ public class MemberDto {
     private String memberName;
     private String memberPassword;
     private String memberEmail;
+    private boolean isPaid;
     private List<String> memberAuthorities;
     private List<Article> memberArticleList;
 
@@ -32,6 +33,7 @@ public class MemberDto {
         this.memberName = member.getMemberName();
         this.memberPassword = member.getMemberPassword();
         this.memberEmail = member.getMemberEmail();
+        this.isPaid = member.isPaid();
         this.memberAuthorities = member.getMemberAuthorities();
         this.memberArticleList = member.getArticleList();
     }

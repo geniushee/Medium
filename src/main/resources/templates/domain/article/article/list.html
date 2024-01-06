@@ -1,28 +1,49 @@
 <html layout:decorate="~{global/layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
-<div layout:fragment="content" class="container flex justify-center">
-    <div class="overflow-x-auto">
-        <table class="table table-zebra">
-            <!-- head -->
-            <thead>
-            <tr>
-                <th>No.</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성일</th>
-            </tr>
-            </thead>
-            <tbody th:each="article, loop : ${publicList}">
-            <!-- row 1 -->
-            <tr>
-                <th>[[${loop.size - loop.index}]]</th>
-                <td><a th:href="|/post/${article.id}|">[[${article.title}]]</a></td>
-                <td>[[${article.author.memberName}]]</td>
-                <td>[[${article.createDate}]]</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<div layout:fragment="content" class="flex justify-center">
+    <main class="container">
+        <section class="flex flex-col">
+            <!-- 카드형태 글 리스트 -->
+            <div th:each="article : ${publicList}">
+                <a th:href="|/post/${article.id}/increaseHit|" class="card w-full bg-base-100 shadow-xl m-5">
+                    <div class="card-body">
+                        <p  class="card-title overflow-hidden">[[${article.title}]]
+                            <span class="badge badge-outline">조회수</span>
+                        </p>
+                        <p class="overflow-hidden whitespace-nowrap">[[${article.body}]]</p>
+                        <div class="card-actions justify-between">
+                            <div class="justify-start">
+                                <span>[[${article.author.memberName}]]</span>
+                                <span> </span>
+                                <span th:text="${#temporals.format(article.createDate, 'yyyy-MM-dd')}"></span>
+                            </div>
+                            <div class="justify-end">
+                                <button class="badge badge-outline">추천</button>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!--페이징-->
+            <nav class="flex justify-center">
+            <div class="join">
+                <a class="join-item btn"
+                   th:if="${publicList.hasPrevious()}"
+                   th:href="|?page=${publicList.number}|"
+                >이전</a>
+                <span th:each="page : ${#numbers.sequence(1,publicList.totalPages)}">
+                    <a class="join-item btn" th:classappend="${page - 1 == publicList.number} ? 'btn-active'"
+                       th:if="${publicList.number - 2 <= page and page <= publicList.number + 4}"
+                       th:text="${page}"
+                       th:href="|?page=${page}|"></a>
+                </span>
+                <a class="join-item btn"
+                   th:if="${publicList.hasNext()}"
+                   th:href="|?page=${publicList.number + 2}|">다음</a>
+            </div>
+            </nav>
+        </section>
+    </main>
 </div>
 
 </html>
